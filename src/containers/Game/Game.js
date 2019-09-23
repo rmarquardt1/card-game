@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Cards from "../../components/Cards/Cards";
 import Controls from "../../components/Controls/Controls";
+import Result from "../../components/Result/Result";
 
 import classes from "./Game.module.css";
 
@@ -9,7 +10,8 @@ class Game extends Component {
   state = {
     deckId: null,
     cards: [],
-    newGame: false
+    newGame: false,
+    result: null
   };
 
   componentDidMount() {
@@ -17,7 +19,7 @@ class Game extends Component {
   }
 
   getNewDeckHandler = () => {
-    this.setState({cards: []});
+    this.setState({cards: [], result: null});
     axios
       .get("https://deckofcardsapi.com/api/deck/new/shuffle/")
       .then(response => {
@@ -75,24 +77,24 @@ class Game extends Component {
         : currentCardVal;
         if (direction === 'up') {
           if (nextCardVal > currentCardVal) {
-            alert('Winner!');
+            this.setState({result: 'Winner!'});
           } 
           else if (nextCardVal === currentCardVal) {
-            alert('Tie');
+            this.setState({result: 'Tie'});
           }
           else {
-            alert('Lost :(');
+            this.setState({result: 'Lost :('});
           }
         }
         if (direction === 'down') {
           if (nextCardVal < currentCardVal) {
-            alert('Winner!');
+            this.setState({result: 'Winner!'});
           } 
           else if (nextCardVal === currentCardVal) {
-            alert('Tie');
+            this.setState({result: 'Tie'});
           }
           else {
-            alert('Lost :(');
+            this.setState({result: 'Lost :('});
           }
         }
         this.setState({newGame: true});  
@@ -101,6 +103,10 @@ class Game extends Component {
   render() {
     return (
       <div className={classes.Game}>
+
+        {this.state.result ? <Result result={this.state.result} /> : null}
+      
+
         {this.state.cards ? <Cards cardArr={this.state.cards} /> : null}
         {this.state.deckId 
         ? <Controls 
