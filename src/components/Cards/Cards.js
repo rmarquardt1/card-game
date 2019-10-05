@@ -7,11 +7,9 @@ const cards = (props) => {
   let playerCards = [];
   for (let i = 0; i < props.cardArr.length; i++) {
     playerCards.push(<Card 
-        key={i}
-        cardImg={props.cardArr[i][0].image}
-        cardSuit={props.cardArr[i][0].suit}
-        cardValue={props.cardArr[i][0].value}
-      />);
+      key={i}
+      cardImg={props.cardArr[i][0].image}
+    />);
   }
   return (
     <div className={classes.Cards}>
